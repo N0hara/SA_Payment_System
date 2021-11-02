@@ -13,7 +13,6 @@ import (
 func main() {
 
 	entity.SetupDatabase()
-	/*gin.SetMode(gin.ReleaseMode)*/
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
@@ -25,36 +24,26 @@ func main() {
 			p.GET("/financialofficers", controller.ListFinancialOfficer)
 			p.GET("/financialofficer/:id", controller.GetFinancialOfficer)
 			p.POST("/financialofficers", controller.CreateFinancialOfficer)
-			//p.PATCH("/financialofficers", controller.UpdateFinancialOfficer)
-			//p.DELETE("/financialofficer/:id", controller.DeleteFinancialOfficer)
 
 			// RightTreatment Routes
 			p.GET("/righttreatments", controller.ListRightTreatment)
 			p.GET("/righttreatment/:id", controller.GetRightTreatment)
 			p.POST("/righttreatments", controller.CreateRightTreatment)
-			//p.PATCH("/righttreatments", controller.UpdateRightTreatment)
-			//p.DELETE("/righttreatment/:id", controller.DeleteRightTreatment)
 
 			// PaymentMethod Routes
 			p.GET("/paymentmethods", controller.ListPaymentMethod)
 			p.GET("/paymentmethod/:id", controller.GetPaymentMethod)
 			p.POST("/paymentmethods", controller.CreatePaymentMethod)
-			//p.PATCH("/paymentmethods", controller.UpdatePaymentMethod)
-			//p.DELETE("/paymentmethod/:id", controller.DeletePaymentMethod)
 
 			// patient Routes
 			p.GET("/patients", controller.ListPatient)
 			p.GET("/patient/:id", controller.GetPatient)
 			p.POST("/patients", controller.CreatePatient)
-			//p.PATCH("/patients", controller.UpdatePatient)
-			//p.DELETE("/patient/:id", controller.DeletePatient)
 
 			// admission Routes
 			p.GET("/admissions", controller.ListAdmission)
 			p.GET("/admission/:id", controller.GetAdmission)
 			p.POST("/admissions", controller.CreateAdmission)
-			//p.PATCH("/admissions", controller.UpdateAdmission)
-			//p.DELETE("/admission/:id", controller.DeleteAdmission)
 			p.GET("/patient/admissions", controller.PatientByAdmission)
 			//PatientByAdmission
 
@@ -62,8 +51,6 @@ func main() {
 			p.GET("/treatmentrecords", controller.ListTreatmentRecord)
 			p.GET("/treatmentrecord/:id", controller.GetTreatmentRecord)
 			p.POST("/treatmentrecords", controller.CreateTreatmentRecord)
-			//p.PATCH("/treatmentrecords", controller.UpdateTreatmentRecord)
-			//p.DELETE("/treatmentrecord/:id", controller.DeleteTreatmentRecord)
 			p.GET("/admission/treatmentrecords", controller.AdmissionByTreatmentRecord)
 			//AdmissionByTreatmentRecord
 
@@ -71,21 +58,11 @@ func main() {
 			p.GET("/bills", controller.ListBill)
 			p.GET("/bill/:id", controller.GetBill)
 			p.POST("/bills", controller.CreateBill)
-			//p.PATCH("/bills", controller.UpdateBill)
-			//p.DELETE("/bill/:id", controller.DeleteBill)
 
 		}
 	}
 
-	// Run the server
-
-	// User Routes
-	//r.POST("/FinancialOfficers/Creat", controller.CreateFinancialOfficer)
-
-	// Authentication Routes
 	r.POST("/login", controller.Login)
-
-	// Run the server
 	r.Run()
 
 }

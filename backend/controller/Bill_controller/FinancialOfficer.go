@@ -48,35 +48,3 @@ func CreateFinancialOfficer(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": financialofficer})
 }
-
-// PATCH /FinancialOfficer
-func UpdateFinancialOfficer(c *gin.Context) {
-	var financialofficer entity.FinancialOfficer
-	if err := c.ShouldBindJSON(&financialofficer); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if tx := entity.DB().Where("id = ?", financialofficer.ID).First(&financialofficer); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "financialofficer not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&financialofficer).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": financialofficer})
-}
-
-// DELETE /FinancialOfficer/:id
-func DeleteFinancialOfficer(c *gin.Context) {
-	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM financial_officers WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "FinancialOfficer not found"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": id})
-}

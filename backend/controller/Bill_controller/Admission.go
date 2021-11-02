@@ -50,38 +50,6 @@ func CreateAdmission(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": admission})
 }
 
-// PATCH /Admission
-func UpdateAdmission(c *gin.Context) {
-	var admission entity.Admission
-	if err := c.ShouldBindJSON(&admission); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if tx := entity.DB().Where("id = ?", admission.ID).First(&admission); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "admission not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&admission).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": admission})
-}
-
-// DELETE /Admission/:id
-func DeleteAdmission(c *gin.Context) {
-	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM admissions WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "admission not found"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": id})
-}
-
 // GET /Patient/Admission
 func PatientByAdmission(context *gin.Context) {
 	var admission []entity.Admission

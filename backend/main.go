@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/N0hara/PaymentSystem/controller"
+	controller "github.com/N0hara/PaymentSystem/controller/Bill_controller"
 
 	"github.com/N0hara/PaymentSystem/entity"
 

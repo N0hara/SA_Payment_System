@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  makeStyles,
-  Theme,
-  createStyles,
-  alpha,
-} from "@material-ui/core/styles";
+import { makeStyles,Theme,createStyles,alpha,} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Container from "@material-ui/core/Container";
@@ -20,11 +15,8 @@ import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 import { RightTreatmentInterface } from "../models/IRightTreatment";
 import { PaymentMethodInterface } from "../models/IPaymentMethod";
-import { PatientInterface } from "../models/IPatient";
-import { AdmissionInterface } from "../models/IAdmission";
 import { TreatmentRecordInterface } from "../models/ITreatmentRecord"; 
 import { BillInterface } from "../models/IBill";
-import { TextField } from "@material-ui/core";
 
 import {
   MuiPickersUtilsProvider,
@@ -56,8 +48,6 @@ function BillCreate() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [righttreatments, setRightTreatments] = useState<RightTreatmentInterface[]>([]);
   const [paymentmethods, setPaymentMethods] = useState<PaymentMethodInterface[]>([]);
-  const [patients, setPatients] = useState<PatientInterface[]>([]);
-  const [admissions, setAdmissions] = useState<AdmissionInterface[]>([]);
   const [treatmentrecords, setTreatmentRecords] = useState<TreatmentRecordInterface[]>([]);
   const [bill, setBill] = useState<Partial<BillInterface>>(
     {}
@@ -111,46 +101,9 @@ function BillCreate() {
     console.log(date);
     setSelectedDate(date);
   };
-//=================================================================================================================================
-//=================================================================================================================================
-//=================================================================================================================================
 
-  /*
-  const getTreatment = async () => {
-    var tmpTreat =treatments;
-    fetch(`${apiUrl}/TreatmentRecords`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          console.log("Here is the treatment data");
-          console.log(res.data);
-          //setTreatments(res.data);
-          tmpTreat = res.data;
-        } else {
-          console.log("else");
-        }
-      });
-      fetch(`${apiUrl}/admissions`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if(res.data){
-          console.log("here is a tmptreat");
-          console.log(tmpTreat);
-          var newTmp = tmpTreat.map((item,index) => {
-            item.Admission = res.data[index];
-            return item;
-          });
-          console.log("here is a newtmp");
-          console.log(newTmp);
-          setTreatments(newTmp);
-        }else{
-            console.log("error admission");
-        }
-      })
-  };*/
-  
   const getRightTreatment = async () => {
-    fetch(`${apiUrl}/righttreatments`, requestOptions)
+    fetch(`${apiUrl}/route/ListRightTreatment`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -161,7 +114,7 @@ function BillCreate() {
       });
   };
   const getPaymentMethod = async () => {
-    fetch(`${apiUrl}/paymentmethods`, requestOptions)
+    fetch(`${apiUrl}/route/ListPayment`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -171,32 +124,9 @@ function BillCreate() {
         }
       });
   };
-  const getPatient = async () => {
-    fetch(`${apiUrl}/patients`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-            setPatients(res.data);
-        } else {
-          console.log("else");
-        }
-      });
-  };
-
-  const getAdmission= async () => {
-    fetch(`${apiUrl}/patient/admissions`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          setAdmissions(res.data);
-        } else {
-          console.log("else");
-        }
-      });
-  };
   
   const getTreatmentRecord= async () => {
-    fetch(`${apiUrl}/admission/treatmentrecords`, requestOptions)
+    fetch(`${apiUrl}/route/ListTreatmentRec`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -207,29 +137,9 @@ function BillCreate() {
       });
   };
 
-  
-
-
-/*
-  const getAdmission = async () => {
-    let uid = localStorage.getItem("uid");
-    fetch(`${apiUrl}/playlist/watched/user/${uid}`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        watchVideo.PlaylistID = res.data.ID
-        if (res.data) {
-          setPlaylists(res.data);
-        } else {
-          console.log("else");
-        }
-      });
-  };*/
-
   useEffect(() => {
     getRightTreatment();
     getPaymentMethod();
-    getPatient();
-    getAdmission();
     getTreatmentRecord();
   }, []);
 
@@ -243,13 +153,10 @@ function BillCreate() {
   function submit() {
     let data = {
         BillDateTime: selectedDate,
-        AmountPaid: convertType(bill.TreatmentRecord?.Cost),
-        IdentificationID: convertType(bill.TreatmentRecord?.Admission.Patient.IdentificationID),
-        //PatientID: convertType(bill.PatientID),
+        AmountPaid: convertType(bill.AmountPaid),
         RightTreatmentID:  convertType(bill.RightTreatmentID),
         PaymentMethodID: convertType(bill.PaymentMethodID),
         TreatmentRecordID: convertType(bill.TreatmentRecordID),
-        
     };
 
     console.log(data)
@@ -263,7 +170,7 @@ function BillCreate() {
       body: JSON.stringify(data),
     };
 
-    fetch(`${apiUrl}/bills`, requestOptionsPost)
+    fetch(`${apiUrl}/route/CreatBill`, requestOptionsPost)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -295,6 +202,7 @@ function BillCreate() {
               component="h2"
               variant="h6"
               color="primary"
+              style={{color:"black"}}
               gutterBottom
             >
               บันทึกการชำระเงิน
@@ -303,31 +211,6 @@ function BillCreate() {
         </Box>
         <Divider />
         <Grid container spacing={3} className={classes.root}>
-        {/*
-        <Grid item xs={6}>
-
-            //คอมเมนต์============================================
-            <FormControl fullWidth variant="outlined">
-              <p>ผู้จ่ายยา</p>
-              <Select
-                native
-                disabled
-                value={medRecord.PharmaID}
-               // onChange={handleChange}
-                /*inputProps={{
-                  name: "PharmaID",
-                }}
-              >
-                <option aria-label="None" value="">
-
-                  {pharmacists?.Name}
-                </option>
-              </Select>
-            </FormControl>
-            //คอมเมนต์============================================
-
-          </Grid>
-                */}
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
               <p>ใบบันทึกการรักษาหมายเลข</p>
@@ -342,15 +225,15 @@ function BillCreate() {
                 <option aria-label="None" value="">
                   กรุณาเลือกใบบันทึกการรักษา
                 </option>
-               
                 {treatmentrecords.map((item: TreatmentRecordInterface) => (
                   <option value={item.ID} key={item.ID}>
-                    {item.ID} {item.Admission.PatientName}
+                    {item.ID}
                   </option>
                 ))}
               </Select>
             </FormControl>
           </Grid>
+
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
               <p>สิทธิการรักษา หรือประกัน</p>
@@ -364,7 +247,7 @@ function BillCreate() {
               >
                 <option aria-label="None" value="">
                     กรุณาเลือกสิทธิการรักษา หรือประกัน
-                </option>
+                </option>                
                 {righttreatments.map((item: RightTreatmentInterface) => (
                   <option value={item.ID} key={item.ID}>
                     {item.RightTreatmentName}
@@ -396,73 +279,6 @@ function BillCreate() {
               </Select>
             </FormControl>
           </Grid>
-        {/*
-        //คอมเมนต์ช=====================================================
-          <Grid item xs={6}>
-          <FormControl fullWidth variant="outlined">
-            <p>จำนวน</p>
-            <TextField
-              label="กรุณากรอกจำนวน"
-              id="Amount"
-              name="Amount"
-              variant="outlined"
-              type="string"
-              size="medium"
-              value={medRecord.Amount || ""}
-              onChange={handleInputChange}
-            />
-          </FormControl>
-          </Grid>
-        */}
-          
-          {
-          //คอมเมนต์ช=====================================================
-          /*
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <p>test</p>
-              <Select
-                native
-                value={medRecord.AdmissionID}
-                onChange={handleChange}
-                inputProps={{
-                  name: "AdmissionID",
-                }}
-              >
-                <option aria-label="None" value="">
-                  กรุณา test
-                </option>
-                {admissions.map((item: AdmissionInterface) => (
-                  <option value={item.ID} key={item.ID}>
-                    {item.PatientID}  {item.Patientname}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-                </Grid>*/}
-          {/*    field lock
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <p>เพลย์ลิสต์</p>
-              <Select
-                native
-                value={medRecord.AdmissionID}
-                onChange={handleChange}
-                disabled
-                inputProps={{
-                  name: "AdmissionID",
-                }}
-              >
-                <option aria-label="None" value="">
-                  กรุณาเลือกเพลย์ลิสต์
-                </option>
-                <option value={medRecord?.ID} key={medRecord?.ID}>
-                  {medRecord?.Admission?.Patientname}
-                </option>
-                
-              </Select>
-            </FormControl>
-              </Grid> */}
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
               <p>วันที่และเวลา</p>
@@ -478,6 +294,74 @@ function BillCreate() {
               </MuiPickersUtilsProvider>
             </FormControl>
           </Grid>
+        {//======================================================================================
+        }
+          <Grid item xs={3}>
+          <Typography style={{color:"black"}} >
+              รายละเอียดการชำระเงิน:
+            </Typography>
+          </Grid>
+          <Grid item xs={3} style={{ float: "right" ,backgroundColor:"#CCCCCC" }}>
+            ชื่อ-สกุล คนใข้ใน
+          </Grid>
+          <Grid item xs={2} style={{ float: "right" ,backgroundColor:"#CCCCCC" }}>
+              {treatmentrecords.map((item: TreatmentRecordInterface) => (
+                (bill["TreatmentRecordID"] == item.ID)?(<option value={item.ID} key={item.ID}>
+                  {item.Admission.PatientName}    
+                </option>):""
+              ))}
+          </Grid>
+          <Grid item xs={2}>
+          </Grid>
+
+          <Grid item xs={3}>
+          </Grid>
+          <Grid item xs={3} style={{ float: "right" ,backgroundColor:"#CCCCCC" }}>
+            Treartment
+          </Grid>
+          <Grid item xs={2} style={{ float: "right" ,backgroundColor:"#CCCCCC" }}>
+              {treatmentrecords.map((item: TreatmentRecordInterface) => (
+                (bill["TreatmentRecordID"] == item.ID)?(<option value={item.ID} key={item.ID}>
+                  {item.Treatment}      
+                </option>):""
+              ))}
+          </Grid>
+          <Grid item xs={2}>
+          </Grid>
+
+          <Grid item xs={3}>
+          </Grid>          
+          <Grid item xs={3} style={{ float: "right" ,backgroundColor:"#CCCCCC" }}>
+            รวมค่ารักษา
+          </Grid>
+          <Grid item xs={2} style={{ float: "right" ,backgroundColor:"#CCCCCC" }}>
+              {treatmentrecords.map((item: TreatmentRecordInterface) => (
+                (bill["TreatmentRecordID"] == item.ID)?(<option value={item.ID} key={item.ID}>
+                  {item.Cost}
+                </option>):""
+              ))}
+          </Grid>
+          <Grid item xs={2}>
+          </Grid>
+
+          <Grid item xs={3}>
+          </Grid>
+          <Grid item xs={3} style={{ float: "right" ,backgroundColor:"#CCCCCC" }}>
+             สิทธิการรักษา
+          </Grid>
+          <Grid item xs={2} style={{ float: "right" ,backgroundColor:"#CCCCCC" }}>
+            {righttreatments.map((item: RightTreatmentInterface) => (
+                (bill["RightTreatmentID"] == item.ID)?(<option value={item.ID} key={item.ID}>
+                  {item.RightTreatmentDetail}
+                </option>):""
+              ))}
+          </Grid>
+          <Grid item xs={2}>
+          </Grid>
+
+        {//======================================================================================
+        }
+
           <Grid item xs={12}>
             <Button
               component={RouterLink}

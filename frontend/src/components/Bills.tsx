@@ -44,7 +44,7 @@ function Bills() {
   };
 
   const getBills = async () => {
-    fetch(`${apiUrl}/bills`, requestOptions)
+    fetch(`${apiUrl}/route/ListBill`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res.data);
@@ -69,6 +69,7 @@ function Bills() {
               component="h2"
               variant="h6"
               color="primary"
+              style={{color:"black"}}
               gutterBottom
             >
               ข้อมูลการชำระเงิน
@@ -119,7 +120,7 @@ function Bills() {
                   <TableCell align="center">{item.ID}</TableCell>
                   <TableCell align="center">{format((new Date(item.BillDateTime)), 'dd MMMM yyyy hh:mm a')}</TableCell>
                   <TableCell align="center">{item.TreatmentRecordID}</TableCell>
-                  <TableCell align="center">{item.TreatmentRecord.Admission.Patient.IdentificationID}</TableCell>
+                  <TableCell align="center">{item.TreatmentRecord.Admission.Patient.Identification}</TableCell>
                   <TableCell align="center">{item.RightTreatment.RightTreatmentName}</TableCell>
                   <TableCell align="center">{item.PaymentMethod.PaymentMethodName}</TableCell>
                   <TableCell align="center">{item.AmountPaid}</TableCell>

@@ -134,7 +134,6 @@ function Navbar() {
 
   const menu = [
     { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
-    //{ name: "เภสัชกร", icon: <AccountCircleIcon />, path: "/pharmacists" },
     { name: "บันทึกการชำระเงิน", icon: <LocalAtmIcon />, path: "/bills" },
     { name: "สร้างบันทึกการชำระเงิน", icon: <NoteAltIcon />, path: "/bill/create" },
   ];
@@ -149,7 +148,7 @@ function Navbar() {
  
   const getFinancialOfficer = async () => {
     const uid = Number(localStorage.getItem("uid"));
-    fetch(`${apiUrl}/financialofficer/${uid}`, requestOptions)
+    fetch(`${apiUrl}/route/GetFinancialOfficer/${uid}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -187,7 +186,6 @@ function Navbar() {
             <MenuIcon />
           </IconButton>
           <AccountBalanceWalletIcon />
-          
           <Typography variant="h6" className={classes.title}>
           &nbsp; ระบบบันทึกการชำระเงิน
           </Typography>

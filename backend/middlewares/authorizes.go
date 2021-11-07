@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/N0hara/PaymentSystem/service"
+	"github.com/ProjectG10/service"
 	"github.com/gin-gonic/gin"
 )
 

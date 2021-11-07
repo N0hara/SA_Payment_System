@@ -5,12 +5,6 @@ export interface TreatmentRecordInterface {
 	Treatment: string,
 	Cost: number,
 
-	//RecordDate: Date | null,
-    //FoodType    uint
-	//MedAmount   uint
-	//EquipmentID uint
-	//MedID       string
-
 	AdmissionID: number;
 	Admission: AdmissionInterface;
 }

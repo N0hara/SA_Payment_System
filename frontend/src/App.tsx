@@ -1,25 +1,3 @@
-/*import React from "react";
-import { BrowserRouter as Router,Switch,Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import MedRecs from "./components/MedRecs";
-import MedRecCreate from "./components/MedRecCreate";
-import Home from "./components/Home";
-export default function App(){
-    return (
-      <Router>
-        <div>
-          <Navbar />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/medicationrecords" component={MedRecs}/>
-              <Route exact path="/create" component={MedRecCreate}/>
-            </Switch>
-          
-        </div>
-      </Router>
-    );
-}*/
-
 import React, { useEffect} from "react";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import {
@@ -30,8 +8,6 @@ import {
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Home from "./components/Home";
-//import Pharmacists from "./components/Pharmacists";
-//import PharmacistCreate from "./components/PharmacistCreate";
 import Bills from "./components/Bills";
 import BillCreate from "./components/BillCreate";
 import SignIn from "./components/Signin";
@@ -112,9 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function MiniDrawer() {
-  
   const classes = useStyles();
- 
   const [token, setToken] = React.useState<String>("");
   
   useEffect(() => {
@@ -141,18 +115,9 @@ export default function MiniDrawer() {
           <div className={classes.toolbar} />
           <div>
             <Switch>
-              
               <Route exact path="/" component={Home} />
-              {/*
-              <Route exact path="/pharmacists" component={Pharmacists} />
-              <Route exact path="/pharmacist/create" component={PharmacistCreate} />
-              */}
               <Route exact path="/bills" component={Bills} />
-              <Route
-                exact
-                path="/bill/create"
-                component={BillCreate}
-              />
+              <Route exact path="/bill/create" component={BillCreate} />
             </Switch>
           </div>
           </main>

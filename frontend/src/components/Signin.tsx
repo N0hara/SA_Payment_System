@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { createTheme,ThemeProvider } from "@material-ui/core";
 import { SigninInterface } from "../models/ISignin";
+import LoginIcon from '@mui/icons-material/Login';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -47,7 +48,7 @@ function SignIn() {
   const [error, setError] = useState(false);
 
   const login = () => {
-    const apiUrl = "http://localhost:8080/login";
+    const apiUrl = "http://localhost:8080/login/financialofficer";
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -95,7 +96,7 @@ function SignIn() {
       </Snackbar>
       <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          อีเมลหรือรหัสผ่านไม่ถูกต้อง
+          รหัสประจำตัวประชาชน หรือรหัสผ่านไม่ถูกต้อง
         </Alert>
       </Snackbar>
       <CssBaseline />
@@ -104,12 +105,13 @@ function SignIn() {
         
           <LockOutlinedIcon />
         </Avatar>*/}
-        <img src="/img/med-jar.png" width="50px"></img>
+        <img src="/img/Login.png" width="100px"></img>
         <Typography component="h1" variant="h5">
           Sign in
           
         </Typography>
-        hint : *Pid:1234567890123, Password:123456*
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Somchai *Pid:1234567890123, Password:123456*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Samhon  *Pid:3210987654321, Password:123456*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -141,6 +143,7 @@ function SignIn() {
             fullWidth
             variant="contained"
             color="primary"
+            style={{backgroundColor:"#626567" }}
             className={classes.submit}
             onClick={login}
           >

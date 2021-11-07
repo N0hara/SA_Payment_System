@@ -7,7 +7,6 @@ export interface BillInterface {
 	BillDateTime: Date,
 	AmountPaid: number,
 
-	PatientPID: string;
 	RightTreatmentID: number;
 	RightTreatment:   RightTreatmentInterface;
 	PaymentMethodID: number;
